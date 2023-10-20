@@ -1,11 +1,15 @@
 {
-  "name": "svgboard",
+  "name": "Surakarta svgboard",
   "version": "1.0.0",
   "description": "surakarta board with svg lib",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css:scss": "node-sass --output-style compressed -o dist src/scss"
   },
   "author": "Raphaël Bellec",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^9.0.0"
+  }
 }
