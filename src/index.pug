@@ -3,7 +3,7 @@ html(lang="en")
   head
     title= pageTitle
     script(type='text/javascript').
-      if (foo) bar(1 + 5)
+      if (false) bar(1 + 5)
     link(rel="stylesheet", href="style.css")
   body
 
@@ -17,12 +17,17 @@ html(lang="en")
       //-         img(src="img/" + cell + ".png")
       //-       else
       //-         img(src="img/empty.png")
-    svg
-      rect(x="10", y="10", width="100", height="100", fill="red")
-      circle(cx="75" cy="75" r="10" fill="#ED6E46")
-      line(x1="5" y1="5" x2="100" y2="100" stroke="#765373" stroke-width="8" class="grid")
-      //- line(x1="35" y1="5" x2="35" y2="100" stroke="#765373" stroke-width="8")
-      line(x1="5" y1="15" x2="100" y2="40" class="grid")
+
+
+    - var ext_loop_path = ["M 300 200", "A 100 100 0 1 0 200 300", "H 800"].join(" ");
+
+    svg(viewBox="0 0 1000 1000")
+      //- First are drawn the two loops
+      path(d=ext_loop_path class="external-loop")
+      //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
+
+      //- Grid
+      line(x1="200" y1="300" x2="800" y2="300" class="grid")
 
 
 
