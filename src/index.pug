@@ -11,67 +11,87 @@ html(lang="en")
 
     #board
       //- SVG
-      //- 6x6 grid with 2 max diameter circles : Width 10x the size of a square.
+      //- Standard map is 6x6 grid with external path on line/col 2 and 3 from edges.
       //- 2 loops : external and internal
       //- 2 players : black and white
       //- 12 pieces per player
 
-      //- Customisations
-      - piece_radius = 25
+      //- Customisations. Grid element width default to 100
+      - var grid_size = 6;
+      - var loops = [2, 3]; // TODO: not handled yet
+      - var grid_element_width = 100;
+      - var piece_radius = 25;
+      - var number_of_line_for_initial_pieces = 2;
 
+
+
+      //- Functions
 
       -
-        var ext_loop_path = [
-          "M 300 200",
-          "A 100 100 0 1 0 200 300",
-          "H 800", // Horizontal line to 8,3
-          "A 100 100 0 1 0 700 200",
-          "V 800", // Vertical line to 8,8
-          "A 100 100 0 1 0 800 700",
-          "H 200", // Horizontal line to 3,8
-          "A 100 100 0 1 0 300 800",
-          "V 200", // Vertical line to 3,3``
+        var create_loop_path = function(grid_size, loop_real_index, grid_element_width){
+          //  index of loops points
+          loop_index = loop_real_index - 1;
+          var min_coord = loop_index * grid_element_width;
+          var max_coord = (grid_size - 1 - loop_index) * grid_element_width;
+          var grid_max = (grid_size - 1) * grid_element_width;
+          var radius = loop_index * grid_element_width;
+
+          path = [`M ${min_coord} 0`, // First point, topmost left corner
+          `A ${radius} ${radius} 0 1 0 0 ${min_coord}`, // top left arc
+          `H ${grid_max}`, // Horizontal line top, to right arc
+          `A ${radius} ${radius} 0 1 0 ${max_coord} 0`, // top right arc
+          `V ${grid_max}`, // Vertical line right
+          `A ${radius} ${radius} 0 1 0 ${grid_max} ${max_coord}`, // bottom right arc
+          `H ${0}`, // Horizontal line bottom
+          `A ${radius} ${radius} 0 1 0 ${min_coord} ${grid_max} `, // bottom left arc
+          `V ${0}`, // Vertical line left
           "Z" // Close path
           ].join(" ");
+          return path;
+        }
 
-        var internal_loop_path = [
-          "M 400 200",
-          "A 200 200 0 1 0 200 400",
-          "H 800", // Horizontal line to 8,4
-          "A 200 200 0 1 0 600 200",
-          "V 800", // Vertical line to 6,8
-          "A 200 200 0 1 0 800 600",
-          "H 200", // Horizontal line to 2,6
-          "A 200 200 0 1 0 400 800",
-          "V 200", // Vertical line to 4,2
-          "Z" // Close path
-          ].join(" ");
+        var calculate_view_box = function(grid_size, loops, grid_element_width, margin){
+          var biggest_loop = Math.max(...loops) - 1;
 
-      svg(viewBox="-50 -50 1050 1050", class="board")
-        //- First are drawn the two loops
-        path(d=ext_loop_path class="external-loop")
-        path(d=internal_loop_path class="internal-loop")
-        //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
+          min = - (biggest_loop * grid_element_width) - margin
+          max = (grid_size - 1 + (biggest_loop * 2)) * grid_element_width + margin * 2;
+          return [min, min, max, max].join(" ");
+        }
+
+      //- TODO: loop on paths
+      - var ext_loop_path = create_loop_path(grid_size, 2, grid_element_width)
+      - var internal_loop_path = create_loop_path(grid_size, 3, grid_element_width)
+
+      //- Calculated values
+      - var view_box = calculate_view_box(grid_size, loops, grid_element_width, 50)
+
+
+      svg(viewBox=view_box, class="board")
+        //- First are drawn the "loops"
+        each loop_distance_from_edge in loops
+          - var loop_path = create_loop_path(grid_size, loop_distance_from_edge, grid_element_width);
+          path(d=loop_path class=`loop loop_path_${loop_distance_from_edge}`)
 
         //- Grid
-        - for (var i = 2; i <= 7; i++)
-          line(x1="200" y1=(i*100) x2="800" y2=(i*100) class="grid")
-          line(x1=(i*100) y1="200" x2=(i*100) y2="800" class="grid")
+        - for (var i = 0; i < grid_size ; i++)
+          line(x1=0 y1=(i*100) x2=((grid_size - 1) * 100) y2=(i*100) class="grid")
+          line(x1=(i*100) y1=0 x2=(i*100) y2=((grid_size - 1)  * 100) class="grid")
 
         //- Piece circles. Configured with initial positions
-        - for (var x = 2; x <= 8; x++)
-          - for (var y = 2; y <= 8; y++)
-            - var position_id = "position_" + (x - 2) + "_" + (y - 2)
+        - for (var x = 0; x < grid_size ; x++)
+          - for (var y = 0; y < grid_size; y++)
+            - var position_id = "position_" + x + "_" + y
+
 
             - var piece_class = ""
-            if y <= 3
+            if y < number_of_line_for_initial_pieces
               - piece_class = "player_1"
-            else if y >= 6
+            else if y > grid_size - number_of_line_for_initial_pieces - 1
               - piece_class = "player_2"
             else
               - piece_class = "empty"
 
-            circle(id=position_id cx=(x*100) cy=(y*100) r=piece_radius class=piece_class)
+            circle(id=position_id cx=(x*100) cy=(y*100) r=piece_radius class=`position ${piece_class}`)
 
 
 
