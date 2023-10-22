@@ -54,13 +54,15 @@ html(lang="en")
         //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
 
         //- Grid
-        - for (var i = 2; i <= 8; i++)
+        - for (var i = 2; i <= 7; i++)
           line(x1="200" y1=(i*100) x2="800" y2=(i*100) class="grid")
           line(x1=(i*100) y1="200" x2=(i*100) y2="800" class="grid")
 
         //- Piece circles. Configured with initial positions
         - for (var x = 2; x <= 8; x++)
           - for (var y = 2; y <= 8; y++)
+            - var position_id = "position_" + (x - 2) + "_" + (y - 2)
+
             - var piece_class = ""
             if y <= 3
               - piece_class = "player_1"
@@ -69,7 +71,7 @@ html(lang="en")
             else
               - piece_class = "empty"
 
-            circle(cx=(x*100) cy=(y*100) r=piece_radius class=(piece_class))
+            circle(id=position_id cx=(x*100) cy=(y*100) r=piece_radius class=piece_class)
 
 
 
