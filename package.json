@@ -10,8 +10,14 @@
     "css:lint": "stylelint src/scss/*.scss  --custom-syntax postcss-scss",
     "build:css": "npm run css:lint && npm run css:scss && npm run css:autoprefixer",
     "watch:css": "onchange \"src/scss\" -- npm run build:css",
-    "serve": "browser-sync start --server \"dist\" --files \"dist\"",
-    "watch": "run-p serve watch:css"
+
+    "build:pug": "pug --output-style compressed -o dist/ src/*.pug",
+    "watch:pug": "onchange \"src/index.pug\" -- npm run build:pug",
+
+    "build": "run-p build:*",
+    "watch": "run-p \"watch:*\"",
+
+    "serve": "browser-sync start --server \"dist\" --files \"dist\""
   },
   "author": "Raphaël Bellec",
   "license": "ISC",
@@ -23,6 +29,7 @@
     "onchange": "^7.1.0",
     "postcss-cli": "^10.1.0",
     "postcss-scss": "^4.0.9",
+    "pug": "^3.0.2",
     "stylelint": "^15.11.0"
   }
 }
