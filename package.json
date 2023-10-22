@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "css:scss": "node-sass --output-style compressed -o dist src/scss"
+    "css:scss": "node-sass --output-style compressed -o dist src/scss",
+    "css:autoprefixer": "postcss -u autoprefixer -r dist/*.css",
+    "css:lint": "stylelint src/scss/*.scss  --custom-syntax postcss-scss",
+    "build:css": "npm run css:lint && npm run css:scss && npm run css:autoprefixer"
   },
   "author": "Raphaël Bellec",
   "license": "ISC",
   "devDependencies": {
-    "node-sass": "^9.0.0"
+    "autoprefixer": "^10.4.16",
+    "node-sass": "^9.0.0",
+    "postcss-cli": "^10.1.0",
+    "postcss-scss": "^4.0.9",
+    "stylelint": "^15.11.0"
   }
 }
