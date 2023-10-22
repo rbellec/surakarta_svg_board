@@ -17,10 +17,10 @@ html(lang="en")
       //- 12 pieces per player
 
       //- Customisations. Grid element width default to 100
-      - var grid_size = 6
-      - var loops = [2, 3]
-      - var grid_element_width = 100
-      - var piece_radius = 25
+      - var grid_size = 6;
+      - var loops = [2, 3];
+      - var grid_element_width = 100;
+      - var piece_radius = 25;
 
 
       //- Functions
@@ -31,9 +31,7 @@ html(lang="en")
           loop_index = loop_real_index - 1;
           var min_coord = loop_index * grid_element_width;
           var max_coord = (grid_size - 1 - loop_index) * grid_element_width;
-
           var grid_max = (grid_size - 1) * grid_element_width;
-
           var radius = loop_index * grid_element_width;
 
           path = [`M ${min_coord} 0`, // First point, topmost left corner
@@ -50,12 +48,12 @@ html(lang="en")
           return path;
         }
 
-        var calculate_view_box = function(grid_size, loops, margin, grid_element_width){
+        var calculate_view_box = function(grid_size, loops, grid_element_width, margin){
           //- biggest_loop = Math.max(loops); check later
-          biggest_loop = 3;
+          biggest_loop = 3 - 1;
 
           min = - (biggest_loop * grid_element_width) - margin
-          max = (grid_size + (biggest_loop * 2)) * grid_element_width + margin;
+          max = (grid_size - 1 + (biggest_loop * 2)) * grid_element_width + margin * 2;
           return [min, min, max, max].join(" ");
         }
 
@@ -65,7 +63,7 @@ html(lang="en")
 
 
       //- Calculated values
-      - var view_box = calculate_view_box(grid_size, loops, grid_element_width, grid_element_width)
+      - var view_box = calculate_view_box(grid_size, loops, grid_element_width, 50)
 
 
       svg(viewBox=view_box, class="board")
