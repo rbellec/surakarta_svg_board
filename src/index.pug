@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    script(type='text/javascript').
+      if (foo) bar(1 + 5)
+    link(rel="stylesheet", href="style.css")
+  body
+
+    h1 Surakarta Board Game
+
+
+
+    #board
+      //- each row in board
+      //-   each cell in row
+      //-     .cell
+      //-       if cell
+      //-         img(src="img/" + cell + ".png")
+      //-       else
+      //-         img(src="img/empty.png")
