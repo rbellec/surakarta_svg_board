@@ -33,9 +33,23 @@ html(lang="en")
         "Z" // Close path
         ].join(" ");
 
+      var internal_loop_path = [
+        "M 400 200",
+        "A 200 200 0 1 0 200 400",
+        "H 800", // Horizontal line to 8,4
+        "A 200 200 0 1 0 600 200",
+        "V 800", // Vertical line to 6,8
+        "A 200 200 0 1 0 800 600",
+        "H 200", // Horizontal line to 2,6
+        "A 200 200 0 1 0 400 800",
+        "V 200", // Vertical line to 4,2
+        "Z" // Close path
+        ].join(" ");
+
     svg(viewBox="0 0 1000 1000")
       //- First are drawn the two loops
       path(d=ext_loop_path class="external-loop")
+      path(d=internal_loop_path class="internal-loop")
       //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
 
       //- Grid

@@ -17,3 +17,11 @@ body {
     fill: none;
     // stroke-linejoin="round"
 }
+
+.internal-loop{
+  stroke: $internal_loop_color;
+  // stroke: black;
+  stroke-width: 5;
+  fill: none;
+  // stroke-linejoin="round"
+}
