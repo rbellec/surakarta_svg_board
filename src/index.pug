@@ -11,17 +11,18 @@ html(lang="en")
 
     #board
       //- SVG
-      //- 6x6 grid with 2 max diameter circles : Width 10x the size of a square.
+      //- Standard map is 6x6 grid with external path on line/col 2 and 3 from edges.
       //- 2 loops : external and internal
       //- 2 players : black and white
       //- 12 pieces per player
 
       //- Customisations. Grid element width default to 100
-      - var grid_size = 6;
-      - var loops = [2, 3];
+      - var grid_size = 10;
+      - var loops = [2, 3, 4]; // TODO: not handled yet
       - var grid_element_width = 100;
       - var piece_radius = 25;
-      - var number_of_line_for_initial_pieces = 2;
+      - var number_of_line_for_initial_pieces = 3;
+
 
 
       //- Functions
@@ -50,8 +51,7 @@ html(lang="en")
         }
 
         var calculate_view_box = function(grid_size, loops, grid_element_width, margin){
-          //- biggest_loop = Math.max(loops); check later
-          biggest_loop = 3 - 1;
+          var biggest_loop = Math.max(...loops) - 1;
 
           min = - (biggest_loop * grid_element_width) - margin
           max = (grid_size - 1 + (biggest_loop * 2)) * grid_element_width + margin * 2;
@@ -62,18 +62,15 @@ html(lang="en")
       - var ext_loop_path = create_loop_path(grid_size, 2, grid_element_width)
       - var internal_loop_path = create_loop_path(grid_size, 3, grid_element_width)
 
-
-
       //- Calculated values
       - var view_box = calculate_view_box(grid_size, loops, grid_element_width, 50)
 
 
       svg(viewBox=view_box, class="board")
-        //- First are drawn the two loops
-        //- TODO: loop on external paths
-        path(d=ext_loop_path class="external-loop")
-        path(d=internal_loop_path class="internal-loop")
-        //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
+        //- First are drawn the "loops"
+        each loop_distance_from_edge in loops
+          - var loop_path = create_loop_path(grid_size, loop_distance_from_edge, grid_element_width);
+          path(d=loop_path class=`loop loop_path_${loop_distance_from_edge}`)
 
         //- Grid
         - for (var i = 0; i < grid_size ; i++)

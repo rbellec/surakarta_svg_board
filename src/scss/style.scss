@@ -11,30 +11,28 @@
     stroke-width: 2;
 }
 
-.external-loop{
-    stroke: $external_loop_color;
-    // stroke: black;
+.loop{
+    stroke: black;
     stroke-width: 8;
     fill: none;
-    // stroke-linejoin="round"
 }
 
-.internal-loop{
+.loop_path_2{
+    stroke: $external_loop_color;
+}
+
+.loop_path_3{
   stroke: $internal_loop_color;
-  // stroke: black;
-  stroke-width: 8;
-  fill: none;
-  // stroke-linejoin="round"
 }
 
 .player_1{
-  stroke: $piece_contour;
+  // stroke: $piece_contour;
   stroke-width: 1;
   fill: $player1_color;
 }
 
 .player_2{
-  stroke: $piece_contour;
+  // stroke: $piece_contour;
   stroke-width: 1;
   fill: $player2_color;
 }
