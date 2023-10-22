@@ -19,7 +19,19 @@ html(lang="en")
       //-         img(src="img/empty.png")
 
 
-    - var ext_loop_path = ["M 300 200", "A 100 100 0 1 0 200 300", "H 800"].join(" ");
+    -
+      var ext_loop_path = [
+        "M 300 200",
+        "A 100 100 0 1 0 200 300",
+        "H 800", // Horizontal line to 8,3
+        "A 100 100 0 1 0 700 200",
+        "V 800", // Vertical line to 8,8
+        "A 100 100 0 1 0 800 700",
+        "H 200", // Horizontal line to 3,8
+        "A 100 100 0 1 0 300 800",
+        "V 200", // Vertical line to 3,3``
+        "Z" // Close path
+        ].join(" ");
 
     svg(viewBox="0 0 1000 1000")
       //- First are drawn the two loops
