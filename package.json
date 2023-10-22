@@ -13,7 +13,7 @@
     "build:pug": "pug --output-style compressed -o dist/ src/*.pug",
     "watch:pug": "onchange \"src/index.pug\" -- npm run build:pug",
     "build": "npm run build:pug && npm run build:css",
-    "watch": "run-p \"watch:*\"",
+    "watch": "onchange \"src\" -- npm run build",
     "serve": "browser-sync start --server \"dist\" --files \"dist\""
   },
   "author": "Raphaël Bellec",
