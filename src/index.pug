@@ -16,12 +16,43 @@ html(lang="en")
       //- 2 players : black and white
       //- 12 pieces per player
 
-      //- Customisations
-      - piece_radius = 25
+      //- Customisations. Grid element width default to 100
+      - var grid_size = 6
+      - var loops = [2, 3]
+      - var grid_element_width = 100
+      - var piece_radius = 25
 
+
+      //- Functions
 
       -
-        var ext_loop_path = [
+        var create_loop_path = function(grid_size, loop_index, grid_element_width){
+          example = ["M 300 200",
+          "A 100 100 0 1 0 200 300",
+          "H 800", // Horizontal line to 8,3
+          "A 100 100 0 1 0 700 200",
+          "V 800", // Vertical line to 8,8
+          "A 100 100 0 1 0 800 700",
+          "H 200", // Horizontal line to 3,8
+          "A 100 100 0 1 0 300 800",
+          "V 200", // Vertical line to 3,3``
+          "Z" // Close path
+          ].join(" ");
+          return example;
+        }
+
+        var calculate_view_box = function(grid_size, loops, margin, grid_element_width){
+          //- biggest_loop = Math.max(loops); check later
+          biggest_loop = 3;
+
+          min = - (biggest_loop * grid_element_width) - margin
+          max = (grid_size + biggest_loop) * grid_element_width + margin;
+          return [min, min, max, max].join(" ");
+        }
+
+      -
+        var ext_loop_path = create_loop_path(6, 2)
+        var ext_loop_path_old = [
           "M 300 200",
           "A 100 100 0 1 0 200 300",
           "H 800", // Horizontal line to 8,3
@@ -47,16 +78,21 @@ html(lang="en")
           "Z" // Close path
           ].join(" ");
 
-      svg(viewBox="-50 -50 1050 1050", class="board")
+
+      //- Calculated values
+      - var view_box = calculate_view_box(grid_size, loops, grid_element_width, grid_element_width)
+
+
+      svg(viewBox=view_box, class="board")
         //- First are drawn the two loops
         path(d=ext_loop_path class="external-loop")
         path(d=internal_loop_path class="internal-loop")
         //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
 
         //- Grid
-        - for (var i = 2; i <= 7; i++)
-          line(x1="200" y1=(i*100) x2="800" y2=(i*100) class="grid")
-          line(x1=(i*100) y1="200" x2=(i*100) y2="800" class="grid")
+        - for (var i = 0; i <= grid_size ; i++)
+          line(x1=0 y1=(i*100) x2=(grid_size * 100) y2=(i*100) class="grid")
+          line(x1=(i*100) y1=0 x2=(i*100) y2=(grid_size * 100) class="grid")
 
         //- Piece circles. Configured with initial positions
         - for (var x = 2; x <= 8; x++)
