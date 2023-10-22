@@ -21,6 +21,7 @@ html(lang="en")
       - var loops = [2, 3];
       - var grid_element_width = 100;
       - var piece_radius = 25;
+      - var number_of_line_for_initial_pieces = 2;
 
 
       //- Functions
@@ -57,6 +58,7 @@ html(lang="en")
           return [min, min, max, max].join(" ");
         }
 
+      //- TODO: loop on paths
       - var ext_loop_path = create_loop_path(grid_size, 2, grid_element_width)
       - var internal_loop_path = create_loop_path(grid_size, 3, grid_element_width)
 
@@ -68,6 +70,7 @@ html(lang="en")
 
       svg(viewBox=view_box, class="board")
         //- First are drawn the two loops
+        //- TODO: loop on external paths
         path(d=ext_loop_path class="external-loop")
         path(d=internal_loop_path class="internal-loop")
         //- une grille de 6x6 avec des arcs de cercle avec 2 de diamètre max : Largeur 10x la taille d'une case.
@@ -82,10 +85,11 @@ html(lang="en")
           - for (var y = 0; y < grid_size; y++)
             - var position_id = "position_" + x + "_" + y
 
+
             - var piece_class = ""
-            if y <= 1
+            if y < number_of_line_for_initial_pieces
               - piece_class = "player_1"
-            else if y >= 4
+            else if y > grid_size - number_of_line_for_initial_pieces - 1
               - piece_class = "player_2"
             else
               - piece_class = "empty"
