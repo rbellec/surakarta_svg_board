@@ -21,7 +21,7 @@ html(lang="en")
       - var loops = [2, 3]; // TODO: not handled yet
       - var grid_element_width = 100;
       - var piece_radius = 25;
-      - var number_of_line_for_initial_pieces = 3;
+      - var number_of_line_for_initial_pieces = 2;
 
 
 
@@ -91,7 +91,7 @@ html(lang="en")
             else
               - piece_class = "empty"
 
-            circle(id=position_id cx=(x*100) cy=(y*100) r=piece_radius class=piece_class)
+            circle(id=position_id cx=(x*100) cy=(y*100) r=piece_radius class=`position ${piece_class}`)
 
 
 
